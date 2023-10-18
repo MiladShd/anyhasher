@@ -103,6 +103,8 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          node-version: 16
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
@@ -161,6 +163,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          node-version: 16
 
       - name: Run Frontend Smoke Test
         run: |
@@ -175,6 +179,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          node-version: 16
       - name: Setup Git
         run: |
           git config user.name "MiladShd"
