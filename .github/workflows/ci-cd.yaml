@@ -168,3 +168,17 @@ jobs:
           cd frontend/e2e
           npm i
           npm run smoke
+
+  push:
+    name: 🚚 Push to Repository
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Git
+        run: |
+          git config user.name "MiladShd"
+          git config user.email "milad.shaddelan@gmail.com"
+      - name: Push to Repository
+        run: |
+          git push origin olt
