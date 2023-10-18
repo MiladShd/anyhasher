@@ -17,4 +17,4 @@ jobs:
 
       - name: SSH into EC2 and deploy
         run: |
-          ssh -i /path/to/your/private-key ec2-user@your-ec2-instance-ip "cd /path/to/your/app && git pull origin main && ./deploy.sh"
+          ssh -i ${{secrets.EC2PRIVATEKEY}} ${{ secrets.EC2NAME }}@${{ secrets.EC2IPADDRESS }} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
