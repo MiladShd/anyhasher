@@ -1,0 +1,18 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main  # Adjust this to the branch you want to trigger the workflow from
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: SSH into EC2 and deploy
+        run: |
+          ssh -i /path/to/your/private-key ec2-user@your-ec2-instance-ip "cd /path/to/your/app && git pull origin main && ./deploy.sh"
