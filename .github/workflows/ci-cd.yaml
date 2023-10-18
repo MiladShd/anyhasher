@@ -182,3 +182,8 @@ jobs:
       - name: Push to Repository
         run: |
           git push origin olt
+      - name: Setup SSH Key
+        run: |
+          echo "${{ secrets.EC2PRIVATEKEY}}" > ssh_key.pem
+          chmod 600 ssh_key.pem
+          ssh-add ssh_key.pem
