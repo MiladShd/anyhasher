@@ -18,6 +18,11 @@ jobs:
           echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
           ls -l temporary_key.pem
 
+      - name: Add EC2 to known hosts
+        run: |
+          echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
+          chmod 600 temporary_key.pem
+          ssh-keyscan -H ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2
         run: |
