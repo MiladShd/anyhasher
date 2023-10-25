@@ -19,4 +19,4 @@ jobs:
         run: |
           echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
           chmod 600 temporary_key.pem
-          ssh -i temporary_key.pem ${{secrets.EC2NAME}}@${{secrets.EC2IPADDRESS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
+          ssh -i temporary_key.pem ${{secrets.EC2NAME}}@$ip-{{secrets.EC2IPADDRESS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
