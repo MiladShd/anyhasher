@@ -14,6 +14,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           node-version: 16
+      - name: Debug: Check temporary key file
+        run: |
+          echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
+          ls -l temporary_key.pem
 
       - name: Deploy to EC2
         run: |
