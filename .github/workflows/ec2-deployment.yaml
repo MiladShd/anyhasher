@@ -24,6 +24,10 @@ jobs:
 
           # Append the EC2 host to known_hosts
           ssh-keyscan -H ${{secrets.EC2IPADDRESS}} >> ~/.ssh/known_hosts
+      - name: Check Runner Username
+        run: |
+          whoami
+          echo "RUNNER USERNAME IS : $(whoami)"
       - name: Set up SSH agent
         run: |
           # Start the SSH agent
