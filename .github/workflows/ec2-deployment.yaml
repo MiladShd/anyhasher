@@ -13,6 +13,17 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v3
 
+      - name: Set up SSH agent
+        run: |
+          # Start the SSH agent
+          eval $(ssh-agent -s)
+          
+          # Add the SSH private key to the agent
+          echo "${{ secrets.EC2PRIVATEKEY }}" | tr -d '\r' | ssh-add -
+
+          # Make sure the key is protected
+          chmod 600 ~/.ssh/id_rsa
+
       - name: Create known_hosts file
         run: mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
 
@@ -26,11 +37,5 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          # Configure the SSH agent and add the private key
-          echo "${{ secrets.EC2PRIVATEKEY }}" | tr -d '\r' | ssh-add -
-          
-          # Make sure the key is protected
-          chmod 600 ~/.ssh/id_rsa
-
           # SSH into the EC2 instance and execute commands
           ssh -i ~/.ssh/id_rsa ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
