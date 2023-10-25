@@ -28,6 +28,7 @@ jobs:
         run: |
           whoami
           echo "RUNNER USERNAME IS : $(whoami)"
+          sudo chown runner:runner /home/runner/.ssh/id_rsa
       - name: Set up SSH agent
         run: |
           # Start the SSH agent
