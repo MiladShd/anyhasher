@@ -24,6 +24,9 @@ jobs:
 
           # Append the EC2 host to known_hosts
           ssh-keyscan -H ${{secrets.EC2IPADDRESS}} >> ~/.ssh/known_hosts
+      - name: List contents of .ssh directory
+        run: ls -la /home/runner/.ssh/
+
       - name: Check Runner Username
         run: |
           whoami
