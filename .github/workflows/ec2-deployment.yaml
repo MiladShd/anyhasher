@@ -41,7 +41,7 @@ jobs:
           echo "${{ secrets.EC2PRIVATEKEY }}" | tr -d '\r' | ssh-add -
 
           # Make sure the key is protected
-          chmod 600 /home/runner/.ssh/id_rsa
+          chmod 600 /home/runner/.ssh/known_hosts
 
       - name: Deploy to EC2
         run: |
