@@ -24,7 +24,6 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan ${{secrets.EC2NAME}} >> ~/.ssh/known_hosts
           chmod 600 temporary_key.pem
-          ssh-keyscan -H ${{ secrets.EC2_IP }} >> ~/.ssh/authorized_keys
 
       - name: Deploy to EC2
         run: |
