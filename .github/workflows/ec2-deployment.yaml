@@ -33,9 +33,9 @@ jobs:
           echo "${{ secrets.EC2PRIVATEKEY }}" | tr -d '\r' | ssh-add -
 
           # Make sure the key is protected
-          chmod 600 ~/.ssh/id_rsa
+          chmod 600 /home/runner/.ssh/id_rsa
 
       - name: Deploy to EC2
         run: |
           # SSH into the EC2 instance and execute commands
-          ssh -i ~/.ssh/id_rsa ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
+          ssh -i /home/runner/.ssh/id_rsa ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
