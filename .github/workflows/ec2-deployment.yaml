@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
           chmod 600 temporary_key.pem
-          ssh-keyscan -H ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.EC2_IP }} >> ~/.ssh/authorized_keys
 
       - name: Deploy to EC2
         run: |
