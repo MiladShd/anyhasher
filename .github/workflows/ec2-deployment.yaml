@@ -46,4 +46,4 @@ jobs:
       - name: Deploy to EC2
         run: |
           # SSH into the EC2 instance and execute commands
-          ssh -i ${{secrets.PEMFILE}} ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
+          ssh -i /home/runner/.ssh/known_hosts ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
