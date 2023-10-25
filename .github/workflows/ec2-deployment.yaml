@@ -11,8 +11,7 @@ jobs:
 
     steps:
       - name: Check out the code
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v2
 
       - name: Create known_hosts file
         run: mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
@@ -24,14 +23,15 @@ jobs:
 
           # Append the EC2 host to known_hosts
           ssh-keyscan -H ${{secrets.EC2IPADDRESS}} >> ~/.ssh/known_hosts
+
       - name: List contents of .ssh directory
-        run: ls -la /home/runner/.ssh/
+        run: ls -la ~/.ssh/
 
       - name: Check Runner Username
         run: |
           whoami
           echo "RUNNER USERNAME IS : $(whoami)"
-          sudo chown runner:runner /home/runner/.ssh/known_hosts
+
       - name: Set up SSH agent
         run: |
           # Start the SSH agent
@@ -41,9 +41,9 @@ jobs:
           echo "${{ secrets.EC2PRIVATEKEY }}" | tr -d '\r' | ssh-add -
 
           # Make sure the key is protected
-          chmod 600 /home/runner/.ssh/known_hosts
+          chmod 600 /home/runner/.ssh/id_rsa
 
       - name: Deploy to EC2
         run: |
           # SSH into the EC2 instance and execute commands
-          ssh -i /home/runner/.ssh/known_hosts ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
+          ssh -i /home/runner/.ssh/id_rsa ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
