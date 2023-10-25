@@ -28,4 +28,6 @@ jobs:
         run: |
           echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
           chmod 600 temporary_key.pem
+          mkdir -p ~/.ssh  # Ensure the directory exists
+          touch ~/.ssh/known_hosts  # Create the file if it doesn't exist
           ssh -v -i temporary_key.pem ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
