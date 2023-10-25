@@ -13,27 +13,24 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v3
 
-      - name: Debug
-        run: |
-          echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
-          ls -l temporary_key.pem
       - name: Create known_hosts file
         run: mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
 
       - name: Add EC2 to known hosts
         run: |
-          echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
-          chmod 600 temporary_key.pem
-          
           # Ensure the .ssh directory exists
           mkdir -p ~/.ssh
 
           # Append the EC2 host to known_hosts
           ssh-keyscan -H ${{secrets.EC2IPADDRESS}} >> ~/.ssh/known_hosts
 
- 
       - name: Deploy to EC2
         run: |
-          echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
-          chmod 600 temporary_key.pem
-          ssh -v -i temporary_key.pem ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
+          # Configure the SSH agent and add the private key
+          echo "${{ secrets.EC2PRIVATEKEY }}" | tr -d '\r' | ssh-add -
+          
+          # Make sure the key is protected
+          chmod 600 ~/.ssh/id_rsa
+
+          # SSH into the EC2 instance and execute commands
+          ssh -i ~/.ssh/id_rsa ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
