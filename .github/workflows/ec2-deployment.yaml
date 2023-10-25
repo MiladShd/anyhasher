@@ -12,15 +12,15 @@ jobs:
     steps:
       - name: Check out the code
         uses: actions/checkout@v3
-        with:
-          node-version: 16
-      - name: Debug: Check temporary key file
+
+      - name: Debug
         run: |
           echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
           ls -l temporary_key.pem
+
 
       - name: Deploy to EC2
         run: |
           echo "${{ secrets.EC2PRIVATEKEY }}" > temporary_key.pem
           chmod 600 temporary_key.pem
-          ssh -i temporary_key.pem ${{secrets.EC2NAME}}@$ip-{{secrets.EC2IPADDRESS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
+          ssh -i temporary_key.pem ${{secrets.EC2NAME}}@${{secrets.EC2IPADDRESS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
