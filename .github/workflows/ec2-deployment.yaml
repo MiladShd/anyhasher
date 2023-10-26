@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Check out the code
         uses: actions/checkout@v2
+      - name: Set up known_hosts
+        run: |
+          echo "${{ secrets.EC2_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
 
       - name: Add EC2 to known hosts
         run: |
@@ -30,15 +33,13 @@ jobs:
 
       - name: Set up SSH agent
         run: |
-          # Start the SSH agent
           eval $(ssh-agent -s)
-            
-          # Add the SSH private key to the agent
-          echo "${{ secrets.EC2PRIVATEKEY }}" | tr -d '\r' | ssh-add -
-      - name: Debug - Print EC2 info
-        run: |
-          echo "EC2NAME=${{secrets.EC2NAME}}"
-          echo "EC2PUBLICIPDNS=${{secrets.EC2PUBLICIPDNS}}"
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
+
+            - name: Debug - Print EC2 info
+              run: |
+                echo "EC2NAME=${{secrets.EC2NAME}}"
+                echo "EC2PUBLICIPDNS=${{secrets.EC2PUBLICIPDNS}}"
 
       
       - name: Deploy to EC2
