@@ -20,7 +20,7 @@ jobs:
         run: ssh-keyscan -H ${{secrets.EC2IPADDRESS}} >> ~/.ssh/known_hosts
 
       - name: List contents of .ssh directory
-        run: ls -laR /home/runner/.ssh/
+        run: ls -laR /home/ubuntu/.ssh/
 
       - name: Check Runner Username
         run: |
