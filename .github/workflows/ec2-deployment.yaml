@@ -16,23 +16,20 @@ jobs:
       - name: Ensure the .ssh directory exists
         run: mkdir -p ~/.ssh
 
-      - name: Add EC2 known host from secret
-        run: echo "${{ secrets.EC2_KNOWN_HOSTS }}" >> ~/.ssh/authorized_keys
-
       - name: Add EC2 to known hosts with ssh-keyscan
-        run: ssh-keyscan -H ${{secrets.EC2IPADDRESS}} >> ~/.ssh/authorized_keys
+        run: ssh-keyscan -H ${{secrets.EC2IPADDRESS}} >> ~/.ssh/known_hosts
 
       - name: List contents of .ssh directory
         run: ls -la ~/.ssh/
 
       - name: Check Runner Username
-        run: | 
+        run: |
           echo "RUNNER USERNAME IS : $(whoami)"
 
       - name: Set up SSH agent
         run: |
           eval $(ssh-agent -s)
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
+          ssh-add ~/.ssh/${{SECRETFILENAME}}
 
       - name: Debug - Print EC2 info
         run: |
