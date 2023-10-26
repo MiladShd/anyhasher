@@ -40,4 +40,4 @@ jobs:
           echo "EC2PUBLICIPDNS=${{secrets.EC2PUBLICIPDNS}}"
 
       - name: Deploy to EC2
-        run: ssh -v ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
+        run: ssh -o StrictHostKeyChecking=no -v ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
