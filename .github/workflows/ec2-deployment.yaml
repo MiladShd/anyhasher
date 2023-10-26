@@ -15,9 +15,6 @@ jobs:
 
       - name: Ensure the .ssh directory exists
         run: mkdir -p ~/.ssh
-        
-      - name: List contents of .ssh directory
-        run: ls -laR /home/runner/.ssh/
 
       - name: Check Runner Username
         run: |
@@ -31,7 +28,10 @@ jobs:
       
       - name: Add EC2 to known hosts with ssh-keyscan
         run: ssh-keyscan -H ${{secrets.EC2IPADDRESS}} >> ~/.ssh/known_hosts
-      
+              
+      - name: List contents of .ssh directory
+        run: ls -laR /home/runner/.ssh/
+
       - name: Set up SSH agent
         run: |
           eval $(ssh-agent -s)
