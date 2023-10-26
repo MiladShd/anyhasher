@@ -20,13 +20,13 @@ jobs:
         run: ssh-keyscan -H ${{secrets.EC2IPADDRESS}} >> ~/.ssh/known_hosts
 
       - name: List contents of .ssh directory
-        run: ls -laR ~/.ssh/
+        run: ls -laR /home/runner/.ssh/
 
       - name: Check Runner Username
         run: |
           echo "RUNNER USERNAME IS : $(whoami)"
       - name: Copy PEM file
-        run: cp /home/runner/.ssh/TeymiSEC2.pem ~/.ssh/
+        run: cp -p /home/runner/.ssh/TeymiSEC2.pem ~/.ssh/
 
       - name: Set up SSH agent
         run: |
