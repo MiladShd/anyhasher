@@ -29,7 +29,7 @@ jobs:
       - name: Set up SSH agent
         run: |
           eval $(ssh-agent -s)
-          ssh-add ~/.ssh/${{SECRETFILENAME}}
+          ssh-add ~/.ssh/${{secrets.SECRETFILENAME}}
 
       - name: Debug - Print EC2 info
         run: |
