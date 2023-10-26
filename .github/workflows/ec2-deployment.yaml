@@ -26,7 +26,8 @@ jobs:
         run: ls -la ~/.ssh/
 
       - name: Check Runner Username
-        run: echo "RUNNER USERNAME IS : $(whoami)"
+        run: | 
+          echo "RUNNER USERNAME IS : $(whoami)"
 
       - name: Set up SSH agent
         run: |
