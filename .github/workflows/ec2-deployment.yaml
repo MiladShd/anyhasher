@@ -13,9 +13,6 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v2
 
-      - name: Create known_hosts file
-        run: mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
-
       - name: Add EC2 to known hosts
         run: |
           # Ensure the .ssh directory exists
@@ -29,7 +26,6 @@ jobs:
 
       - name: Check Runner Username
         run: |
-          whoami
           echo "RUNNER USERNAME IS : $(whoami)"
 
       - name: Set up SSH agent
@@ -40,10 +36,7 @@ jobs:
           # Add the SSH private key to the agent
           echo "${{ secrets.EC2PRIVATEKEY }}" | tr -d '\r' | ssh-add -
 
-          # Make sure the key is protected
-          chmod 600 /home/runner/.ssh/known_hosts
-
       - name: Deploy to EC2
         run: |
           # SSH into the EC2 instance and execute commands
-          ssh -i ${{secrets.PEMFILE}} ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
+          ssh -i ${{secrets.EC2PRIVATEKEY}} ${{secrets.EC2NAME}}@${{secrets.EC2PUBLICIPDNS}} "cd ${{secrets.PATHOFAPP}} && git pull origin main && ./deploy.sh"
