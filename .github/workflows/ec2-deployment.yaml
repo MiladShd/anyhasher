@@ -25,6 +25,8 @@ jobs:
       - name: Check Runner Username
         run: |
           echo "RUNNER USERNAME IS : $(whoami)"
+      - name: Copy PEM file
+        run: cp /home/runner/.ssh/TeymiSEC2.pem ~/.ssh/
 
       - name: Set up SSH agent
         run: |
